@@ -1,43 +1,30 @@
-# Astro Starter Kit: Minimal
+# One Flyt — Web Oficial
 
-```sh
-pnpm create astro@latest -- --template minimal
+Sitio web oficial del cantante One Flyt, artista alternativo independiente de Argentina.
+
+🌐 [oneflyt.vercel.app](https://oneflyt.vercel.app)
+
+# Tecnologías
+
+- [Astro](https://astro.build) — framework web
+- CSS con variables y mobile-first
+- Desplegado en [Vercel](https://vercel.com)
+
+# Secciones
+
+- **Hero** — imagen de fondo, redes sociales y navegación
+- **Nueva Música** — últimos lanzamientos con links a plataformas
+- **Biografía** — historia del artista
+- **Fechas** — fechas del Argentina Tour con links a Passline
+- **Footer** — redes sociales y créditos
+
+# Desarrollo local
+
+```bash
+npm install
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+# Créditos
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Diseño y desarrollo por [Filipo Borghetti](https://www.instagram.com/filiborghetti)
