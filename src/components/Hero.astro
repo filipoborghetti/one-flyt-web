@@ -1,0 +1,148 @@
+---
+
+---
+
+<section class="hero">
+  <div class="hero-bg">
+    <img src="/images/background_hero.jpg" alt="" />
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-top">
+      <h1 class="hero-title">ONE FLYT</h1>
+
+      <div class="hero-socials">
+        <a
+          href="https://open.spotify.com/intl-es/artist/2DB4gqzMQy1kvcHWgrNUgp"
+          target="_blank"
+          aria-label="Spotify"
+        >
+          <img src="/icons/spotify.svg" alt="Spotify" />
+        </a>
+        <a
+          href="https://www.instagram.com/oneflyt1"
+          target="_blank"
+          aria-label="Instagram"
+        >
+          <img src="/icons/instagram.svg" alt="Instagram" />
+        </a>
+        <a
+          href="https://tiktok.com/@oneflyt149"
+          target="_blank"
+          aria-label="TikTok"
+        >
+          <img src="/icons/tiktok.svg" alt="TikTok" />
+        </a>
+      </div>
+    </div>
+
+    <nav class="hero-nav">
+      <a href="#musica">Música</a>
+      <a href="#biografia">Biografía</a>
+      <a href="https://www.submithub.com/link/redes" target="_blank">Redes</a>
+      <a href="#fechas">Fechas</a>
+    </nav>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hero-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 100vh;
+    width: 100%;
+    padding: 3rem 1.5rem 2rem;
+  }
+
+  .hero-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 15vw, 6rem);
+    color: var(--color-text);
+    letter-spacing: 0.03em;
+    text-align: center;
+  }
+
+  .hero-socials {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .hero-socials a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    transition: border-color 0.2s;
+  }
+
+  .hero-socials a:hover {
+    border-color: rgba(255, 255, 255, 0.9);
+  }
+
+  .hero-socials img {
+    width: 18px;
+    height: 18px;
+    filter: invert(1);
+  }
+
+  .hero-nav {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .hero-nav a {
+    color: var(--color-text);
+    text-decoration: none;
+    font-family: var(--font-ui);
+    font-size: 0.95rem;
+    opacity: 0.85;
+    transition: opacity 0.2s;
+  }
+
+  .hero-nav a:hover {
+    opacity: 1;
+  }
+
+  @media (min-width: 768px) {
+    .hero-title {
+      font-size: clamp(4rem, 8vw, 8rem);
+    }
+  }
+</style>

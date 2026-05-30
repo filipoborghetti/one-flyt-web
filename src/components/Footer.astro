@@ -1,0 +1,118 @@
+---
+const socials = [
+  {
+    name: "Spotify",
+    url: "https://open.spotify.com/intl-es/artist/2DB4gqzMQy1kvcHWgrNUgp?si=qGatZEy1SvaolXTWvwA1bg",
+    icon: "/icons/spotify.svg"
+  },
+  {
+    name: "Instagram",
+    url: "https://www.instagram.com/oneflyt1",
+    icon: "/icons/instagram.svg"
+  },
+  {
+    name: "TikTok",
+    url: "https://tiktok.com/@oneflyt149",
+    icon: "/icons/tiktok.svg"
+  },
+  {
+    name: "YouTube",
+    url: "https://www.youtube.com/@oneflyt",
+    icon: "/icons/youtube.svg"
+  },
+  {
+    name: "Discord",
+    url: "https://www.discord.gg/yNPaHuZS8R",
+    icon: "/icons/discord.svg"
+  },
+];
+---
+
+<footer class="footer">
+  <a href="#" class="footer-logo">One Flyt</a>
+
+  <div class="footer-socials">
+    {socials.map((social) => (
+      <a href={social.url} target="_blank" aria-label={social.name} class="footer-social-link">
+        <img src={social.icon} alt={social.name} />
+      </a>
+    ))}
+  </div>
+
+  <div class="footer-credits">
+    <p>© 2026 One Flyt</p>
+    <p>Diseño y desarrollo por <a href="https://www.instagram.com/filiborghetti" target="_blank" class="footer-author">Filipo Borghetti</a></p>
+  </div>
+</footer>
+
+<style>
+.footer {
+  background-color: var(--color-bg);
+  padding: 3rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.footer-logo {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--color-text);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.footer-socials {
+  display: flex;
+  gap: 1.25rem;
+  align-items: center;
+}
+
+.footer-social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.footer-social-link:hover {
+  opacity: 1;
+}
+
+.footer-social-link img {
+  width: 20px;
+  height: 20px;
+  filter: invert(1);
+}
+
+.footer-credits {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.footer-credits p {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.footer-author {
+  color: var(--color-text-muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s;
+}
+
+.footer-author:hover {
+  color: var(--color-text);
+}
+</style>

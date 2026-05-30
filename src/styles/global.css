@@ -1,0 +1,62 @@
+@font-face {
+  font-family: "Uncial Antiqua";
+  src: url("/fonts/UncialAntiqua-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --color-bg: #000000;
+  --color-bg-secondary: #111111;
+  --color-text: #ffffff;
+  --color-text-muted: #aaaaaa;
+  --color-accent: #ffffff;
+
+  --font-display: "Uncial Antiqua", sans-serif;
+  --font-heading: "Fjalla One", sans-serif;
+  --font-body: "Darker Grotesque", sans-serif;
+  --font-accent: "Gabarito", sans-serif;
+  --font-ui: "Inter", sans-serif;
+
+  --spacing-section: 5rem;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+@media (min-width: 768px) {
+  .navbar {
+    display: none;
+  }
+}

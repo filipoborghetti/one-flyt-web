@@ -1,0 +1,169 @@
+---
+const dates = [
+  {
+    city: "one flyt en la plata",
+    url: "https://www.passline.com/eventos/one-flyt-en-la-plata",
+  },
+  {
+    city: "one flyt en rosario",
+    url: "https://www.passline.com/eventos/one-flyt-en-rosario",
+  },
+  {
+    city: "one flyt en neuquén",
+    url: "https://www.passline.com/eventos/one-flyt-en-neuquen",
+  },
+  {
+    city: "one flyt en salta",
+    url: "https://www.passline.com/eventos/one-flyt-en-salta",
+  },
+  {
+    city: "one flyt en tucumán",
+    url: "https://www.passline.com/eventos/one-flyt-en-tucuman-509043",
+  },
+  {
+    city: "one flyt en córdoba",
+    url: "https://www.passline.com/eventos/one-flyt-en-cordoba",
+  },
+];
+---
+
+<section id="fechas" class="tour">
+  <div class="tour-bg"></div>
+
+  <div class="tour-content">
+    <h2 class="tour-title">FECHAS</h2>
+
+    <div class="tour-card">
+      <div class="tour-flyer">
+        <img src="/images/tour.jpg" alt="Si Mañana Me Muero - Argentina Tour" />
+      </div>
+
+      <div class="tour-dates">
+        {
+          dates.map((date) => (
+            <a href={date.url} target="_blank" class="tour-btn">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <>
+                  <path d="M15 3h6v6" />
+                  <path d="M10 14 21 3" />
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                </>
+              </svg>
+              {date.city}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .tour {
+    position: relative;
+    padding: var(--spacing-section) 1.5rem;
+    overflow: hidden;
+  }
+
+  .tour-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url("/images/background.jpg");
+    background-size: cover;
+    background-position: center;
+    opacity: 0.15;
+    z-index: 0;
+  }
+
+  .tour-content {
+    position: relative;
+    z-index: 1;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .tour-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 8vw, 4rem);
+    color: var(--color-text);
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .tour-card {
+    background: rgba(0, 0, 0, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    overflow: hidden;
+    z-index: 2;
+  }
+
+  .tour-flyer {
+    display: block;
+  }
+
+  .tour-flyer img {
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .tour-dates {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.5rem;
+  }
+
+  .tour-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--font-ui);
+    font-size: 0.9rem;
+    color: var(--color-text);
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    padding: 0.85rem 1rem;
+    transition:
+      background 0.2s,
+      border-color 0.2s;
+  }
+
+  .tour-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  @media (min-width: 768px) {
+    .tour-content {
+      max-width: 500px;
+    }
+
+    .tour-flyer {
+      display: block;
+    }
+  }
+
+  .tour::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 150px;
+    background: linear-gradient(to bottom, transparent, var(--color-bg));
+    z-index: 0;
+  }
+</style>

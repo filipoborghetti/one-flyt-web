@@ -1,0 +1,106 @@
+---
+const paragraphs = [
+  "One Flyt es una de las nuevas propuestas emergentes de la escena urbana independiente. Con un estilo que mezcla trap melódico, reggaetón alternativo y sonidos emocionales, el artista ha construido una identidad marcada por la sensibilidad, la estética digital y una fuerte conexión con las experiencias personales de su generación. Sus canciones combinan melodías atmosféricas, letras introspectivas y una energía moderna que oscila entre lo íntimo y lo explosivo.",
+  'A través de temas como "kemujer", "sin mi reina", "bloqueame a todas" y "03:27", One Flyt comenzó a consolidar una comunidad de oyentes que conectan con su manera directa y emocional de escribir. Su música aborda relaciones, ambición, inseguridades y momentos de transformación personal, manteniendo una estética contemporánea influenciada por la cultura digital y urbana actual.',
+  "Con el paso de los lanzamientos, el proyecto evolucionó hacia una propuesta más sólida tanto musical como visualmente, incorporando colaboraciones con artistas de la nueva escena independiente y expandiendo su alcance en plataformas digitales. Actualmente, One Flyt continúa trabajando en nuevos proyectos musicales y audiovisuales, desarrollando una visión artística que busca trascender la música y convertirse en una experiencia completa entre sonido, imagen e identidad.",
+];
+---
+
+<section id="biografia" class="bio">
+  <div class="bio-bg"></div>
+
+  <div class="bio-content">
+    <h2 class="bio-title">BIOGRAFÍA</h2>
+
+    <div class="bio-grid">
+      <div class="bio-photo">
+        <img src="/images/oneflyt.jpg" alt="One Flyt" />
+      </div>
+
+      <div class="bio-text">
+        {paragraphs.map((p) => <p>{p}</p>)}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .bio {
+    position: relative;
+    padding: var(--spacing-section) 1.5rem;
+    overflow: hidden;
+  }
+
+  .bio-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url("/images/background_bio.jpg");
+    background-size: cover;
+    background-position: center;
+    opacity: 0.3;
+    z-index: 0;
+  }
+
+  .bio-content {
+    position: relative;
+    z-index: 1;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .bio-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 8vw, 4rem);
+    color: var(--color-text);
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .bio-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .bio-photo {
+    display: none;
+    padding-top: 0.9rem;
+  }
+
+  .bio-photo img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+
+  .bio-text {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .bio-text p {
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    line-height: 1.75;
+    color: var(--color-text);
+  }
+
+  @media (min-width: 768px) {
+    .bio-grid {
+      display: grid;
+      grid-template-columns: 400px 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .bio-photo {
+      display: block;
+    }
+
+    .bio-text p {
+      font-size: 1.4rem;
+    }
+  }
+</style>

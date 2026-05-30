@@ -1,0 +1,201 @@
+---
+const releases = [
+  {
+    title: "+ te odio a vos",
+    type: "Single",
+    cover: "/images/+te_odio_a_vos_cover.jpg",
+    url: "https://www.submithub.com/link/mas-te-odio-a-vos",
+  },
+  {
+    title: "si mañana me muero",
+    type: "Álbum",
+    cover: "/images/si_mañana_me_muero_cover.jpg",
+    url: "https://www.submithub.com/link/si-manana-me-muero",
+  },
+];
+---
+
+<section id="musica" class="music">
+  <h2 class="music-title">NUEVA MÚSICA</h2>
+
+  <div class="music-list">
+    {
+      releases.map((release) => (
+        <div class="music-item">
+          <img class="music-cover" src={release.cover} alt={release.title} />
+          <div class="music-info">
+            <div class="music-name">
+              <span class="music-track">{release.title}</span>
+              <span
+                class={`music-badge ${release.type === "Single" ? "badge-single" : "badge-album"}`}
+              >
+                {release.type}
+              </span>
+            </div>
+            <a href={release.url} target="_blank" class="music-btn">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <>
+                  <path d="M15 3h6v6" />
+                  <path d="M10 14 21 3" />
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                </>
+              </svg>
+              escuchar ahora
+            </a>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .music {
+    padding: var(--spacing-section) 1.5rem;
+    background-color: var(--color-bg);
+  }
+
+  .music-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 8vw, 4rem);
+    color: var(--color-text);
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .music-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .music-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .music-cover {
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .music-info {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .music-name {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .music-track {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    color: var(--color-text);
+  }
+
+  .music-badge {
+    font-family: var(--font-ui);
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    text-transform: lowercase;
+  }
+
+  .badge-single {
+    background-color: #3a86ff;
+    color: #fff;
+  }
+
+  .badge-album {
+    background-color: #ff6b35;
+    color: #fff;
+  }
+
+  .music-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-ui);
+    font-size: 0.9rem;
+    color: var(--color-text);
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition:
+      border-color 0.2s,
+      background-color 0.2s;
+    width: fit-content;
+  }
+
+  .music-btn:hover {
+    border-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  @media (min-width: 768px) {
+    .music-list {
+      max-width: 900px;
+      gap: 3rem;
+    }
+
+    .music-item {
+      max-width: 900px;
+      flex-direction: row;
+      align-items: center;
+      margin: 0 auto;
+    }
+
+    .music-cover {
+      width: 220px;
+      max-width: 220px;
+      align-self: auto;
+    }
+
+    .music-track {
+      font-size: 2.2rem;
+    }
+
+    .music-badge {
+      font-size: 0.9rem;
+      padding: 0.25rem 0.75rem;
+    }
+
+    .music-btn {
+      font-size: 1rem;
+      padding: 0.6rem 1.2rem;
+    }
+
+    .music-info {
+      max-width: none;
+    }
+  }
+</style>

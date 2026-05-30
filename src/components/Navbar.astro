@@ -1,0 +1,130 @@
+---
+
+---
+
+<header class="navbar">
+  <a href="#" class="navbar-logo">One Flyt</a>
+
+  <nav class="navbar-links">
+    <a href="#musica">Música</a>
+    <a href="#biografia">Biografía</a>
+    <a href="https://www.submithub.com/link/redes" target="_blank">Redes</a>
+    <a href="#fechas">Fechas</a>
+  </nav>
+</header>
+
+<script>
+  const navbar = document.querySelector(".navbar") as HTMLElement;
+  const heroTitle = document.querySelector(".hero-title") as HTMLElement;
+
+  let observer: IntersectionObserver | null = null;
+
+  function showNavbar() {
+    navbar.style.display = "flex";
+    navbar.style.animation = "fadeDown 0.4s ease forwards";
+  }
+
+  function hideNavbar() {
+    navbar.style.animation = "fadeUp 0.3s ease forwards";
+    setTimeout(() => {
+      navbar.style.display = "none";
+    }, 300);
+  }
+
+  function setup() {
+    navbar.style.display = "none";
+
+    if (observer) {
+      observer.disconnect();
+      observer = null;
+    }
+
+    if (window.innerWidth >= 768 && heroTitle) {
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            hideNavbar();
+          } else {
+            showNavbar();
+          }
+        },
+        { threshold: 0 },
+      );
+      observer.observe(heroTitle);
+    }
+  }
+
+  setup();
+  window.addEventListener("resize", setup);
+</script>
+
+<style>
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    animation: fadeDown 0.4s ease forwards;
+  }
+
+  @keyframes fadeDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+  }
+
+  .navbar-logo {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    color: var(--color-text);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .navbar-links {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .navbar-links a {
+    color: var(--color-text);
+    text-decoration: none;
+    font-family: var(--font-ui);
+    font-size: 1.2rem;
+    opacity: 0.85;
+    transition: opacity 0.2s;
+  }
+
+  .navbar-links a:hover {
+    opacity: 1;
+  }
+
+  @media (min-width: 768px) {
+    .navbar {
+      padding: 1.25rem 3rem;
+    }
+  }
+</style>
