@@ -1,4 +1,7 @@
 ---
+import Image from "astro/components/Image.astro";
+import tourFlyer from "../assets/images/tour.jpg";
+
 const dates = [
   {
     city: "one flyt en la plata",
@@ -34,8 +37,12 @@ const dates = [
     <h2 class="tour-title fade-in">FECHAS</h2>
 
     <div class="tour-card fade-in">
-      <div class="tour-flyer">
-        <img src="/images/tour.jpg" alt="Si Mañana Me Muero - Argentina Tour" />
+      <div>
+        <Image
+          src={tourFlyer}
+          alt="Si Mañana Me Muero - Argentina Tour"
+          class="tour-flyer"
+        />
       </div>
 
       <div class="tour-dates">
@@ -110,6 +117,8 @@ const dates = [
 
   .tour-flyer {
     display: block;
+    width: 100%;
+    height: auto;
   }
 
   .tour-flyer img {

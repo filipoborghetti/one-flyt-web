@@ -1,10 +1,14 @@
 ---
-
+import { Image } from "astro:assets";
+import heroImg from "../assets/images/background_hero.jpg";
+import SpotifyLogo from "../assets/icons/spotify.svg";
+import InstagramLogo from "../assets/icons/instagram.svg";
+import TikTokLogo from "../assets/icons/tiktok.svg";
 ---
 
-<section class="hero">
+<section id="hero" class="hero">
   <div class="hero-bg">
-    <img src="/images/background_hero.jpg" alt="" />
+    <Image src={heroImg} alt="" loading="eager" />
   </div>
 
   <div class="hero-content">
@@ -17,21 +21,21 @@
           target="_blank"
           aria-label="Spotify"
         >
-          <img src="/icons/spotify.svg" alt="Spotify" />
+          <Image src={SpotifyLogo} alt="Spotify" loading="eager" />
         </a>
         <a
           href="https://www.instagram.com/oneflyt1"
           target="_blank"
           aria-label="Instagram"
         >
-          <img src="/icons/instagram.svg" alt="Instagram" />
+          <Image src={InstagramLogo} alt="Instagram" loading="eager" />
         </a>
         <a
           href="https://tiktok.com/@oneflyt149"
           target="_blank"
           aria-label="TikTok"
         >
-          <img src="/icons/tiktok.svg" alt="TikTok" />
+          <Image src={TikTokLogo} alt="TikTok" loading="eager" />
         </a>
       </div>
     </div>

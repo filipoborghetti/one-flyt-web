@@ -1,15 +1,19 @@
 ---
+import Image from "astro/components/Image.astro";
+import cover1 from "../assets/images/+te_odio_a_vos_cover.jpg";
+import cover2 from "../assets/images/si_mañana_me_muero_cover.jpg";
+
 const releases = [
   {
     title: "+ te odio a vos",
     type: "Single",
-    cover: "/images/+te_odio_a_vos_cover.jpg",
+    cover: cover1,
     url: "https://www.submithub.com/link/mas-te-odio-a-vos",
   },
   {
     title: "si mañana me muero",
     type: "Álbum",
-    cover: "/images/si_mañana_me_muero_cover.jpg",
+    cover: cover2,
     url: "https://www.submithub.com/link/si-manana-me-muero",
   },
 ];
@@ -25,7 +29,7 @@ const releases = [
           class="music-item fade-in"
           style={`transition-delay: ${index * 0.2}s`}
         >
-          <img class="music-cover" src={release.cover} alt={release.title} />
+          <Image src={release.cover} alt={release.title} class="music-cover" />
           <div class="music-info">
             <div class="music-name">
               <span class="music-track">{release.title}</span>
@@ -97,7 +101,8 @@ const releases = [
   .music-cover {
     width: 100%;
     max-width: 400px;
-    aspect-ratio: 1;
+    height: auto;
+    aspect-ratio: 1 / 1;
     object-fit: cover;
     border-radius: 8px;
   }

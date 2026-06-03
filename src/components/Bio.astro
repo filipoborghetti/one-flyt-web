@@ -1,4 +1,7 @@
 ---
+import Image from "astro/components/Image.astro";
+import oneflytPhoto from "../assets/images/oneflyt.jpg";
+
 const paragraphs = [
   "One Flyt es el proyecto musical de Rodrigo Valdez, nacido el 11 de diciembre de 2003 (22 años) en Villa Devoto, Buenos Aires. Su sonido fusiona influencias del Drumless, R&B y Ghostpell en un universo íntimo y emocional que nació de experiencias propias.",
   "Sus canciones abordan la salud mental, la soledad y la depresión desde una mirada honesta, sin filtros pero con calma. Cada letra es un intento de poner en palabras lo que muchas veces no tiene nombre.",
@@ -13,8 +16,8 @@ const paragraphs = [
     <h2 class="bio-title fade-in">BIOGRAFÍA</h2>
 
     <div class="bio-grid fade-in">
-      <div class="bio-photo">
-        <img src="/images/oneflyt.jpg" alt="One Flyt" />
+      <div>
+        <Image src={oneflytPhoto} alt="One Flyt" class="bio-photo" />
       </div>
 
       <div class="bio-text">
@@ -64,12 +67,8 @@ const paragraphs = [
   }
 
   .bio-photo {
-    display: none;
-    padding-top: 0.9rem;
-  }
-
-  .bio-photo img {
     width: 100%;
+    height: auto;
     aspect-ratio: 3/4;
     object-fit: cover;
     border-radius: 4px;
