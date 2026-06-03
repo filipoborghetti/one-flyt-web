@@ -9,9 +9,9 @@
 
   <div class="hero-content">
     <div class="hero-top">
-      <h1 class="hero-title">ONE FLYT</h1>
+      <h1 class="hero-title fade-in">ONE FLYT</h1>
 
-      <div class="hero-socials">
+      <div class="hero-socials fade-in">
         <a
           href="https://open.spotify.com/intl-es/artist/2DB4gqzMQy1kvcHWgrNUgp"
           target="_blank"
@@ -36,7 +36,7 @@
       </div>
     </div>
 
-    <nav class="hero-nav">
+    <nav class="hero-nav fade-in">
       <a href="#musica">Música</a>
       <a href="#biografia">Biografía</a>
       <a href="#fechas">Fechas</a>
@@ -63,8 +63,9 @@
 
   .hero-bg img {
     width: 100%;
-    height: 90%;
+    height: 100%;
     object-fit: cover;
+    object-position: center 50%;
   }
 
   .hero-content {
@@ -97,6 +98,7 @@
   .hero-socials {
     display: flex;
     gap: 1rem;
+    transition-delay: 0.1s;
   }
 
   .hero-socials a {
@@ -126,6 +128,7 @@
     flex-wrap: wrap;
     justify-content: center;
     padding-bottom: 5.5rem;
+    transition-delay: 0.3s;
   }
 
   .hero-nav a {
@@ -147,7 +150,7 @@
     }
     .hero-nav {
       gap: 3rem;
-      padding-bottom: 1rem;
+      padding-bottom: 0rem;
     }
     .hero-bg img {
       height: 100%;

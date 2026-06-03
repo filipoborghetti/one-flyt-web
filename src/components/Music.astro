@@ -16,12 +16,15 @@ const releases = [
 ---
 
 <section id="musica" class="music">
-  <h2 class="music-title">NUEVA MÚSICA</h2>
+  <h2 class="music-title fade-in">NUEVA MÚSICA</h2>
 
   <div class="music-list">
     {
-      releases.map((release) => (
-        <div class="music-item">
+      releases.map((release, index) => (
+        <div
+          class="music-item fade-in"
+          style={`transition-delay: ${index * 0.2}s`}
+        >
           <img class="music-cover" src={release.cover} alt={release.title} />
           <div class="music-info">
             <div class="music-name">
