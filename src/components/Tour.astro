@@ -1,33 +1,14 @@
 ---
-import Image from "astro/components/Image.astro";
+import { Image } from "astro:assets";
 import tourFlyer from "../assets/images/tour.jpg";
+import { sanityClient } from "../lib/sanity.ts";
 
-const dates = [
-  {
-    city: "one flyt en la plata",
-    url: "https://www.passline.com/eventos/one-flyt-en-la-plata",
-  },
-  {
-    city: "one flyt en rosario",
-    url: "https://www.passline.com/eventos/one-flyt-en-rosario",
-  },
-  {
-    city: "one flyt en neuquén",
-    url: "https://www.passline.com/eventos/one-flyt-en-neuquen",
-  },
-  {
-    city: "one flyt en salta",
-    url: "https://www.passline.com/eventos/one-flyt-en-salta",
-  },
-  {
-    city: "one flyt en tucumán",
-    url: "https://www.passline.com/eventos/one-flyt-en-tucuman-509043",
-  },
-  {
-    city: "one flyt en córdoba",
-    url: "https://www.passline.com/eventos/one-flyt-en-cordoba",
-  },
-];
+const dates = await sanityClient.fetch(`
+  *[_type == "fecha"] | order(orden asc) {
+    ciudad,
+    url
+  }
+`);
 ---
 
 <section id="fechas" class="tour">
@@ -47,7 +28,7 @@ const dates = [
 
       <div class="tour-dates">
         {
-          dates.map((date) => (
+          dates.map((date: any) => (
             <a href={date.url} target="_blank" class="tour-btn">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -60,13 +41,11 @@ const dates = [
                 stroke-linecap="round"
                 stroke-linejoin="round"
               >
-                <>
-                  <path d="M15 3h6v6" />
-                  <path d="M10 14 21 3" />
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                </>
+                <path d="M15 3h6v6" />
+                <path d="M10 14 21 3" />
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
               </svg>
-              {date.city}
+              {date.ciudad}
             </a>
           ))
         }

@@ -1,22 +1,15 @@
 ---
-import Image from "astro/components/Image.astro";
-import cover1 from "../assets/images/+te_odio_a_vos_cover.jpg";
-import cover2 from "../assets/images/si_mañana_me_muero_cover.jpg";
+import { Image } from "astro:assets";
+import { sanityClient } from "../lib/sanity.ts";
 
-const releases = [
-  {
-    title: "+ te odio a vos",
-    type: "Single",
-    cover: cover1,
-    url: "https://www.submithub.com/link/mas-te-odio-a-vos",
-  },
-  {
-    title: "si mañana me muero",
-    type: "Álbum",
-    cover: cover2,
-    url: "https://www.submithub.com/link/si-manana-me-muero",
-  },
-];
+const releases = await sanityClient.fetch(`
+  *[_type == "lanzamiento"] | order(orden asc) {
+    titulo,
+    tipo,
+    "coverUrl": cover.asset->url,
+    url
+  }
+`);
 ---
 
 <section id="musica" class="music">
@@ -24,19 +17,23 @@ const releases = [
 
   <div class="music-list">
     {
-      releases.map((release, index) => (
+      releases.map((release: any, index: number) => (
         <div
           class="music-item fade-in"
           style={`transition-delay: ${index * 0.2}s`}
         >
-          <Image src={release.cover} alt={release.title} class="music-cover" />
+          <img
+            src={release.coverUrl}
+            alt={release.titulo}
+            class="music-cover"
+          />
           <div class="music-info">
             <div class="music-name">
-              <span class="music-track">{release.title}</span>
+              <span class="music-track">{release.titulo}</span>
               <span
-                class={`music-badge ${release.type === "Single" ? "badge-single" : "badge-album"}`}
+                class={`music-badge ${release.tipo === "Single" ? "badge-single" : "badge-album"}`}
               >
-                {release.type}
+                {release.tipo}
               </span>
             </div>
             <a href={release.url} target="_blank" class="music-btn">
@@ -51,11 +48,9 @@ const releases = [
                 stroke-linecap="round"
                 stroke-linejoin="round"
               >
-                <>
-                  <path d="M15 3h6v6" />
-                  <path d="M10 14 21 3" />
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                </>
+                <path d="M15 3h6v6" />
+                <path d="M10 14 21 3" />
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
               </svg>
               escuchar ahora
             </a>
