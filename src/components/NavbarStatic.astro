@@ -1,0 +1,64 @@
+---
+
+---
+
+<header class="navbar-static">
+  <a href="/" class="navbar-logo">One Flyt</a>
+
+  <nav class="navbar-links">
+    <a href="/#musica">Música</a>
+    <a href="/#biografia">Biografía</a>
+    <a href="/#fechas">Fechas</a>
+    <a href="https://www.submithub.com/link/redes" target="_blank">Redes</a>
+  </nav>
+</header>
+
+<style>
+  .navbar-static {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+  }
+
+  .navbar-logo {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    color: var(--color-text);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .navbar-links {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .navbar-links a {
+    color: var(--color-text);
+    text-decoration: none;
+    font-family: var(--font-ui);
+    font-size: 1.2rem;
+    opacity: 0.85;
+    transition: opacity 0.2s;
+  }
+
+  .navbar-links a:hover {
+    opacity: 1;
+  }
+
+  @media (min-width: 768px) {
+    .navbar-static {
+      display: flex;
+      padding: 1.25rem 3rem;
+    }
+  }
+</style>

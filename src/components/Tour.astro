@@ -1,14 +1,23 @@
 ---
-import { Image } from "astro:assets";
-import tourFlyer from "../assets/images/tour.jpg";
 import { sanityClient } from "../lib/sanity.ts";
 
 const dates = await sanityClient.fetch(`
-  *[_type == "fecha"] | order(orden asc) {
+  *[_type == "fecha"] | order(fecha asc) {
     ciudad,
+    venue,
+    fecha,
+    "flyerUrl": flyer.asset->url,
     url
   }
 `);
+
+function formatDate(dateStr: string) {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString("es-AR", {
+    day: "numeric",
+    month: "long",
+  });
+}
 ---
 
 <section id="fechas" class="tour">
@@ -17,42 +26,114 @@ const dates = await sanityClient.fetch(`
   <div class="tour-content">
     <h2 class="tour-title fade-in">FECHAS</h2>
 
-    <div class="tour-card fade-in">
-      <div>
-        <Image
-          src={tourFlyer}
-          alt="Si Mañana Me Muero - Argentina Tour"
-          class="tour-flyer"
-        />
+    <div class="carousel-wrapper fade-in">
+      <button class="carousel-btn prev" aria-label="Anterior">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+          <path
+            d="M15 18l-6-6 6-6"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg>
+      </button>
+
+      <div class="swiper tour-swiper">
+        <div class="swiper-wrapper">
+          {
+            dates.map((date: any) => (
+              <div class="swiper-slide">
+                <div class="fecha-card">
+                  <div class="fecha-flyer">
+                    <img
+                      src={date.flyerUrl}
+                      alt={`One Flyt en ${date.ciudad}`}
+                      width={1000}
+                      height={1000}
+                    />
+                  </div>
+
+                  <div class="fecha-info">
+                    <h2 class="fecha-ciudad">{date.ciudad}</h2>
+                    <p class="fecha-venue">{date.venue}</p>
+                    <p class="fecha-date">{formatDate(date.fecha)}</p>
+
+                    <a
+                      href={date.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="fecha-btn"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M15 3h6v6" />
+                        <path d="M10 14 21 3" />
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                      </svg>
+                      Comprar entradas
+                    </a>
+                  </div>
+                </div>
+              </div>
+            ))
+          }
+        </div>
       </div>
 
-      <div class="tour-dates">
-        {
-          dates.map((date: any) => (
-            <a href={date.url} target="_blank" class="tour-btn">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="M15 3h6v6" />
-                <path d="M10 14 21 3" />
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-              </svg>
-              {date.ciudad}
-            </a>
-          ))
-        }
-      </div>
+      <button class="carousel-btn next" aria-label="Siguiente">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+          <path
+            d="M9 6l6 6-6 6"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg>
+      </button>
+    </div>
+
+    <div class="tour-footer fade-in">
+      <a href="/fechas" class="ver-todo-btn">Ver todas las fechas</a>
     </div>
   </div>
 </section>
+
+<script>
+  import Swiper from "swiper";
+  import { Navigation } from "swiper/modules";
+  import "swiper/css";
+  import "swiper/css/navigation";
+
+  window.addEventListener("load", () => {
+    new Swiper(".tour-swiper", {
+      modules: [Navigation],
+
+      slidesPerView: 1.1,
+      spaceBetween: 16,
+
+      navigation: {
+        nextEl: ".carousel-btn.next",
+        prevEl: ".carousel-btn.prev",
+        disabledClass: "is-disabled",
+      },
+
+      breakpoints: {
+        768: {
+          slidesPerView: 3,
+        },
+      },
+    });
+  });
+</script>
 
 <style>
   .tour {
@@ -67,14 +148,14 @@ const dates = await sanityClient.fetch(`
     background-image: url("../assets/images/background.jpg");
     background-size: cover;
     background-position: center;
-    opacity: 0.6;
+    opacity: 0.5;
     z-index: 0;
   }
 
   .tour-content {
     position: relative;
     z-index: 1;
-    max-width: 600px;
+    max-width: 1200px;
     margin: 0 auto;
   }
 
@@ -86,76 +167,188 @@ const dates = await sanityClient.fetch(`
     margin-bottom: 2.5rem;
   }
 
-  .tour-card {
-    background: rgba(0, 0, 0, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    overflow: hidden;
-    z-index: 2;
-  }
-
-  .tour-flyer {
-    display: block;
-    width: 100%;
-    height: auto;
-  }
-
-  .tour-flyer img {
-    width: 100%;
-    object-fit: cover;
-  }
-
-  .tour-dates {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    padding: 1.5rem;
-  }
-
-  .tour-btn {
+  .carousel-wrapper {
+    position: relative;
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    font-family: var(--font-ui);
-    font-size: 0.9rem;
-    color: var(--color-text);
-    text-decoration: none;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 8px;
-    padding: 0.85rem 1rem;
-    transition:
-      background 0.2s,
-      border-color 0.2s;
   }
 
-  .tour-btn:hover {
+  .tour-swiper {
+    width: 100%;
+    max-width: 1050px;
+    margin: 0 auto;
+  }
+
+  .fecha-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    background: rgba(20, 20, 20, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    overflow: hidden;
+
+    color: var(--color-text);
+
+    transition:
+      border-color 0.2s ease,
+      background 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .fecha-flyer {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: #000;
+  }
+
+  .fecha-flyer img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  .fecha-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .fecha-ciudad {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    text-transform: uppercase;
+  }
+
+  .fecha-venue {
+    margin: 0.35rem 0 0;
+    font-size: 1.05rem;
+    color: var(--color-text-muted);
+  }
+
+  .fecha-date {
+    margin: 0.25rem 0 0;
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+  }
+
+  .fecha-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: 0.9rem;
+    width: fit-content;
+    padding: 0.55rem 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    color: var(--color-text);
+    text-decoration: none;
+    font-family: var(--font-ui);
+    font-size: 0.85rem;
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .fecha-btn:hover {
     background: rgba(255, 255, 255, 0.15);
     border-color: rgba(255, 255, 255, 0.3);
   }
 
-  @media (min-width: 768px) {
-    .tour-bg {
-      opacity: 0.3;
-    }
-
-    .tour-content {
-      max-width: 500px;
-    }
-
-    .tour-flyer {
-      display: block;
-    }
+  .fecha-btn svg {
+    flex-shrink: 0;
   }
 
-  .tour::after {
-    content: "";
+  .carousel-btn {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 150px;
-    background: linear-gradient(to bottom, transparent, var(--color-bg));
-    z-index: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 56px;
+    height: 56px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(20, 20, 20, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: white;
+    cursor: pointer;
+    z-index: 20;
+    transition: all 0.1s ease;
+  }
+
+  .carousel-btn.prev {
+    left: 0px;
+  }
+
+  .carousel-btn.next {
+    right: 0px;
+  }
+
+  .carousel-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-50%) scale(1.01);
+  }
+
+  .carousel-btn:active {
+    transform: translateY(-50%) scale(0.95);
+  }
+
+  .carousel-btn.is-disabled {
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  .tour-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+
+  .ver-todo-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: 0.9rem;
+    width: fit-content;
+    padding: 0.55rem 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    color: var(--color-text);
+    text-decoration: none;
+    font-family: var(--font-ui);
+    font-size: 0.85rem;
+    background: rgba(20, 20, 20, 0.8);
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .ver-todo-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.8);
+  }
+
+  @media (max-width: 768px) {
+    .carousel-btn {
+      display: none;
+    }
+
+    .fecha-info {
+      padding: 0.85rem;
+    }
+
+    .fecha-btn {
+      padding: 0.75rem 1rem;
+      font-size: 0.85rem;
+    }
   }
 </style>

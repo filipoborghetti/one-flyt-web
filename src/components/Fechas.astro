@@ -1,0 +1,254 @@
+---
+import { sanityClient } from "../lib/sanity.ts";
+
+const dates = await sanityClient.fetch(`
+  *[_type == "fecha"] | order(fecha asc) {
+    ciudad,
+    venue,
+    fecha,
+    "flyerUrl": flyer.asset->url,
+    url
+  }
+`);
+
+function formatDate(dateStr: string) {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString("es-AR", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
+---
+
+<section id="fechas" class="fechas">
+  <h1 class="fechas-title fade-in">FECHAS</h1>
+
+  <div class="fechas-grid fade-in">
+    {
+      dates.map((date: any) => (
+        <div class="fecha-card">
+          <div class="fecha-flyer">
+            <img
+              src={date.flyerUrl}
+              alt={`One Flyt en ${date.ciudad}`}
+              width={1000}
+              height={1000}
+            />
+          </div>
+
+          <div class="fecha-info">
+            <h2 class="fecha-ciudad">{date.ciudad}</h2>
+            <p class="fecha-venue">{date.venue}</p>
+            <p class="fecha-date">{formatDate(date.fecha)}</p>
+
+            <a
+              href={date.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="fecha-btn"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M15 3h6v6" />
+                <path d="M10 14 21 3" />
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+              </svg>
+              Comprar entradas
+            </a>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>
+<style>
+  .fechas {
+    min-height: 100vh;
+    padding: 4rem 1.25rem 4rem;
+    background-color: var(--color-bg);
+    background-image: url("../assets/images/background.jpg");
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+
+  .fechas::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 0;
+  }
+
+  .fechas::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 150px;
+    background: linear-gradient(to bottom, transparent, var(--color-bg));
+    z-index: 0;
+  }
+
+  .fechas-title,
+  .fechas-grid {
+    position: relative;
+    z-index: 1;
+  }
+
+  .fechas-title {
+    line-height: 1;
+    margin: 0 0 2rem;
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 10vw, 4rem);
+    color: var(--color-text);
+  }
+
+  .fechas-grid {
+    display: grid;
+    gap: 1rem;
+    max-width: 800px;
+    margin: 0 auto;
+    transition-delay: 0.1s;
+  }
+
+  .fecha-card {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 1rem;
+    height: 160px;
+    background: rgba(20, 20, 20, 0.9);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .fecha-flyer {
+    background: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .fecha-flyer img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .fecha-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1rem 1rem 1rem 0;
+  }
+
+  .fecha-ciudad,
+  .fecha-venue,
+  .fecha-date {
+    margin: 0;
+  }
+
+  .fecha-ciudad {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    line-height: 1;
+    text-transform: uppercase;
+    color: var(--color-text);
+  }
+
+  .fecha-venue {
+    margin-top: 0.35rem;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+  }
+
+  .fecha-date {
+    margin-top: 0.2rem;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    text-transform: capitalize;
+  }
+
+  .fecha-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: 0.9rem;
+    width: fit-content;
+    padding: 0.55rem 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    color: var(--color-text);
+    text-decoration: none;
+    font-family: var(--font-ui);
+    font-size: 0.85rem;
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .fecha-btn:hover {
+    border-color: rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  @media (min-width: 768px) {
+    .fechas {
+      padding: 8.5rem;
+    }
+
+    .fechas-grid {
+      grid-template-columns: repeat(3, 1fr);
+      max-width: 1200px;
+    }
+
+    .fecha-card {
+      grid-template-columns: 1fr;
+      grid-template-rows: 260px auto;
+      height: auto;
+    }
+
+    .fecha-flyer {
+      height: 260px;
+    }
+
+    .fecha-info {
+      padding: 1rem;
+    }
+
+    .fecha-ciudad {
+      font-size: 1.8rem;
+    }
+
+    .fecha-venue {
+      font-size: 1.2rem;
+    }
+
+    .fecha-date {
+      font-size: 1rem;
+    }
+  }
+
+  .footer-container {
+    position: relative;
+    z-index: 2;
+  }
+</style>
