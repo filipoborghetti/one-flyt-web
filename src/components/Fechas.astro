@@ -2,10 +2,20 @@
 import { sanityClient } from "../lib/sanity.ts";
 
 const dates = await sanityClient.fetch(`
-  *[_type == "fecha"] | order(fecha asc) {
+  *[_type == "fecha"]
+| order(
+    select(
+      disponibilidad == "available" => 0,
+      disponibilidad == "soldout" => 1,
+      disponibilidad == "cancelled" => 2,
+      3
+    ),
+    fecha asc
+  ) {
     ciudad,
     venue,
     fecha,
+    disponibilidad,
     "flyerUrl": flyer.asset->url,
     url
   }
@@ -39,33 +49,46 @@ function formatDate(dateStr: string) {
           </div>
 
           <div class="fecha-info">
-            <h2 class="fecha-ciudad">{date.ciudad}</h2>
+            <div class="fecha-header">
+              <h2 class="fecha-ciudad">{date.ciudad}</h2>
+              {date.disponibilidad === "soldout" && (
+                <span class="status-badge soldout">SOLD OUT</span>
+              )}
+              {date.disponibilidad === "cancelled" && (
+                <span class="status-badge cancelled">CANCELADO</span>
+              )}
+            </div>
             <p class="fecha-venue">{date.venue}</p>
             <p class="fecha-date">{formatDate(date.fecha)}</p>
-
-            <a
-              href={date.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="fecha-btn"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+            {date.disponibilidad === "soldout" ? (
+              <div class="fecha-btn disabled">Entradas agotadas</div>
+            ) : date.disponibilidad === "cancelled" ? (
+              <div class="fecha-btn disabled">Evento cancelado</div>
+            ) : (
+              <a
+                href={date.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="fecha-btn"
               >
-                <path d="M15 3h6v6" />
-                <path d="M10 14 21 3" />
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-              </svg>
-              Comprar entradas
-            </a>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M15 3h6v6" />
+                  <path d="M10 14 21 3" />
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                </svg>
+                Comprar entradas
+              </a>
+            )}
           </div>
         </div>
       ))
@@ -138,6 +161,7 @@ function formatDate(dateStr: string) {
   }
 
   .fecha-flyer {
+    position: relative;
     background: black;
     display: flex;
     align-items: center;
@@ -148,6 +172,32 @@ function formatDate(dateStr: string) {
     width: 100%;
     height: 100%;
     object-fit: contain;
+  }
+
+  .fecha-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  .status-badge {
+    padding: 0.34rem 0.55rem;
+    border-radius: 999px;
+
+    font-family: var(--font-ui);
+    font-size: 0.7rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.05em;
+    text-transform: lowercase;
+
+    color: white;
+    background: #d32f2f;
+  }
+
+  .cancelled {
+    background: #666;
   }
 
   .fecha-info {
@@ -167,23 +217,23 @@ function formatDate(dateStr: string) {
     font-family: var(--font-heading);
     font-size: 1.5rem;
     line-height: 1;
-    text-transform: uppercase;
+    text-transform: capitalize;
     color: var(--color-text);
   }
 
   .fecha-venue {
     margin-top: 0.35rem;
     font-family: var(--font-body);
-    font-size: 0.95rem;
+    font-size: 1.1rem;
     color: var(--color-text-muted);
   }
 
   .fecha-date {
     margin-top: 0.2rem;
     font-family: var(--font-body);
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: var(--color-text-muted);
-    text-transform: capitalize;
+    text-transform: lowercase;
   }
 
   .fecha-btn {
@@ -203,6 +253,15 @@ function formatDate(dateStr: string) {
       background 0.2s ease,
       border-color 0.2s ease,
       transform 0.2s ease;
+  }
+
+  .fecha-btn.disabled {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.08);
+    color: var(--color-text-muted);
+    opacity: 0.7;
+    cursor: default;
+    pointer-events: none;
   }
 
   .fecha-btn:hover {

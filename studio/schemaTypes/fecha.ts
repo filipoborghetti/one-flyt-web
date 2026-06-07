@@ -9,6 +9,18 @@ export default {
       type: 'string',
     },
     {
+      name: 'disponibilidad',
+      title: 'Disponibilidad',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Disponible', value: 'available'},
+          {title: 'Sold Out', value: 'soldout'},
+          {title: 'Cancelado', value: 'cancelled'},
+        ],
+      },
+    },
+    {
       name: 'venue',
       title: 'Venue',
       type: 'string',
