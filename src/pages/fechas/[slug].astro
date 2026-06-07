@@ -1,0 +1,508 @@
+---
+export const prerender = true;
+import Layout from "../../layouts/Layout.astro";
+import NavbarStatic from "../../components/NavbarStatic.astro";
+import Footer from "../../components/Footer.astro";
+import { sanityClient } from "../../lib/sanity.ts";
+
+export async function getStaticPaths() {
+  const dates = await sanityClient.fetch(`
+    *[_type == "fecha" && defined(slug.current)] {
+      "slug": slug.current
+    }
+  `);
+  return dates.map((date: any) => ({
+    params: { slug: date.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+
+const date = await sanityClient.fetch(
+  `*[_type == "fecha" && slug.current == $slug][0] {
+    ciudad,
+    venue,
+    fecha,
+    descripcion,
+    edadMinima,
+    precio,
+    disponibilidad,
+    linkMaps,
+    "flyerUrl": flyer.asset->url,
+    url
+  }`,
+  { slug },
+);
+
+if (!date) return Astro.redirect("/fechas");
+
+function formatDate(dateStr: string) {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString("es-AR", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
+
+function formatTime(dateStr: string) {
+  const date = new Date(dateStr);
+  return date.toLocaleTimeString("es-AR", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+---
+
+<Layout title={`One Flyt en ${date.ciudad}`}>
+  <NavbarStatic />
+
+  <main class="evento">
+    <div class="evento-bg"></div>
+    <div class="evento-overlay"></div>
+
+    <div class="evento-content fade-in">
+      <div class="evento-card">
+        <div class="evento-flyer">
+          <img src={date.flyerUrl} alt={`One Flyt en ${date.ciudad}`} />
+        </div>
+
+        <div class="evento-info">
+          <h1 class="evento-ciudad">{date.ciudad}</h1>
+
+          <div class="evento-detalles">
+            <div class="detalle">
+              <span class="detalle-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  ><path
+                    d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"
+                  ></path><circle cx="12" cy="10" r="3"></circle></svg
+                >
+              </span>
+              <div class="detalle-body">
+                <span class="detalle-label">Lugar</span>
+                <div class="venue-row">
+                  <span class="detalle-valor">{date.venue}</span>
+                  {
+                    date.linkMaps && (
+                      <a href={date.linkMaps} target="_blank" class="maps-link">
+                        Ver en Google Maps
+                      </a>
+                    )
+                  }
+                </div>
+              </div>
+            </div>
+
+            <div class="detalle">
+              <span class="detalle-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  ><path d="M11 14h1v4"></path><path d="M16 2v4"></path><path
+                    d="M3 10h18"></path><path d="M8 2v4"></path><rect
+                    x="3"
+                    y="4"
+                    width="18"
+                    height="18"
+                    rx="2"></rect></svg
+                >
+              </span>
+              <div class="detalle-body">
+                <span class="detalle-label">Fecha</span>
+                <span class="detalle-valor">{formatDate(date.fecha)}</span>
+              </div>
+            </div>
+
+            <div class="detalle">
+              <span class="detalle-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  ><circle cx="12" cy="12" r="10"></circle><path
+                    d="M12 6v6l-4 2"></path></svg
+                >
+              </span>
+              <div class="detalle-body">
+                <span class="detalle-label">Horario</span>
+                <span class="detalle-valor">{formatTime(date.fecha)}</span>
+              </div>
+            </div>
+
+            {
+              date.precio && date.disponibilidad === "available" && (
+                <div class="detalle">
+                  <span class="detalle-icon">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <>
+                        <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z" />
+                        <path d="M13 5v2" />
+                        <path d="M13 17v2" />
+                        <path d="M13 11v2" />
+                      </>
+                    </svg>
+                  </span>
+                  <div class="detalle-body">
+                    <span class="detalle-label">Precio</span>
+                    <span class="detalle-valor">{date.precio}</span>
+                  </div>
+                </div>
+              )
+            }
+
+            {
+              date.edadMinima && (
+                <div class="detalle">
+                  <span class="detalle-icon">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <>
+                        <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+                        <path d="M6.376 18.91a6 6 0 0 1 11.249.003" />
+                        <circle cx="12" cy="11" r="4" />
+                      </>
+                    </svg>
+                  </span>
+                  <div class="detalle-body">
+                    <span class="detalle-label">Edad mínima</span>
+                    <span class="detalle-valor">+{date.edadMinima} años</span>
+                  </div>
+                </div>
+              )
+            }
+          </div>
+
+          {
+            date.descripcion && (
+              <p class="evento-descripcion">{date.descripcion}</p>
+            )
+          }
+
+          <div class="evento-actions">
+            {
+              date.disponibilidad === "available" && (
+                <a href={date.url} target="_blank" class="evento-btn primary">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <>
+                      <path d="M15 3h6v6" />
+                      <path d="M10 14 21 3" />
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                    </>
+                  </svg>
+                  Comprar entradas
+                </a>
+              )
+            }
+            {
+              date.disponibilidad === "soldout" && (
+                <div class="evento-btn disabled">Entradas agotadas</div>
+              )
+            }
+            {
+              date.disponibilidad === "cancelled" && (
+                <div class="evento-btn disabled">Evento cancelado</div>
+              )
+            }
+            <a href="/fechas" class="evento-btn secondary"
+              >Ver todas las fechas</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .evento {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5rem 1.5rem 4rem;
+    overflow: hidden;
+  }
+
+  .evento-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url("../../assets/images/background.jpg");
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+  }
+
+  .evento-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 1;
+  }
+
+  .evento::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 150px;
+    background: linear-gradient(to bottom, transparent, var(--color-bg));
+    z-index: 0;
+  }
+
+  .evento-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .evento-card {
+    background: rgba(10, 10, 10, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    overflow: hidden;
+    backdrop-filter: blur(20px);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .evento-flyer {
+    background: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .evento-flyer img {
+    width: 100%;
+    display: block;
+    object-fit: contain;
+    max-height: 320px;
+  }
+
+  .evento-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: 1.5rem;
+  }
+
+  .evento-ciudad {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 8vw, 3.5rem);
+    color: var(--color-text);
+    margin: 0;
+    line-height: 1;
+  }
+
+  .evento-detalles {
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .detalle {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.85rem 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .detalle:last-child {
+    border-bottom: none;
+  }
+
+  .detalle-icon {
+    flex-shrink: 0;
+    color: var(--color-text-muted);
+    display: flex;
+    align-items: center;
+  }
+
+  .detalle-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .detalle-label {
+    font-family: var(--font-ui);
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .detalle-valor {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--color-text);
+    text-transform: capitalize;
+  }
+
+  .venue-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .maps-link {
+    display: flex;
+    align-items: center;
+    color: var(--color-text-muted);
+    transition: color 0.2s;
+  }
+
+  .maps-link:hover {
+    color: var(--color-text);
+  }
+
+  .evento-descripcion {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--color-text-muted);
+    margin: 0;
+    white-space: pre-line;
+  }
+
+  .evento-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .evento-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-family: var(--font-ui);
+    font-size: 0.95rem;
+    text-decoration: none;
+    padding: 0.85rem 1.5rem;
+    border-radius: 8px;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+
+  .evento-btn.primary {
+    background: var(--color-text);
+    color: var(--color-bg);
+    border: 1px solid var(--color-text);
+    font-weight: 600;
+  }
+
+  .evento-btn.primary:hover {
+    background: rgba(255, 255, 255, 0.8);
+  }
+
+  .evento-btn.secondary {
+    background: transparent;
+    color: var(--color-text-muted);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .evento-btn.secondary:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+    color: var(--color-text);
+  }
+
+  .evento-btn.disabled {
+    opacity: 0.4;
+    cursor: default;
+    pointer-events: none;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--color-text-muted);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  @media (min-width: 768px) {
+    .evento-card {
+      flex-direction: row;
+      align-items: stretch;
+    }
+
+    .evento {
+      padding: 9rem 1.5rem 4rem;
+    }
+
+    .evento-flyer {
+      width: 320px;
+      flex-shrink: 0;
+    }
+
+    .evento-flyer img {
+      max-height: none;
+      height: 100%;
+    }
+
+    .evento-info {
+      padding: 2rem;
+    }
+
+    .evento-actions {
+      flex-direction: row;
+    }
+  }
+</style>
