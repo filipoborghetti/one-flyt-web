@@ -256,6 +256,28 @@ function formatTime(dateStr: string) {
                 <div class="evento-btn disabled">Evento cancelado</div>
               )
             }
+            <button
+              type="button"
+              class="evento-btn secondary share-btn"
+              data-slug={slug}
+              data-title={`One Flyt en ${date.ciudad}`}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-share-icon lucide-share"
+                ><path d="M12 2v13"></path><path d="m16 6-4-4-4 4"></path><path
+                  d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path></svg
+              >
+              Compartir
+            </button>
             <a href="/fechas" class="evento-btn secondary"
               >Ver todas las fechas</a
             >
@@ -266,6 +288,53 @@ function formatTime(dateStr: string) {
   </main>
   <Footer />
 </Layout>
+
+<script>
+  function shareFecha(button: HTMLButtonElement): void {
+    const slug = button.dataset.slug;
+    if (!slug) return;
+
+    const title = button.dataset.title || "One Flyt";
+    const url = `${window.location.origin}/fechas/${slug}`;
+    const text = `Mirá esta fecha: ${title}`;
+
+    if (navigator.share) {
+      navigator.share({ title, text, url }).catch(() => {});
+      return;
+    }
+
+    if (navigator.clipboard) {
+      navigator.clipboard
+        .writeText(url)
+        .then(() => {
+          const originalText = button.innerHTML;
+
+          button.innerHTML = "✓ Enlace copiado";
+
+          setTimeout(() => {
+            button.innerHTML = originalText;
+          }, 1500);
+        })
+        .catch(() => {
+          window.prompt("Copia este enlace:", url);
+        });
+
+      return;
+    }
+
+    window.prompt("Copia este enlace:", url);
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    document
+      .querySelectorAll<HTMLButtonElement>(".share-btn")
+      .forEach((button) => {
+        button.addEventListener("click", () => {
+          shareFecha(button);
+        });
+      });
+  });
+</script>
 
 <style>
   .evento {
@@ -308,7 +377,7 @@ function formatTime(dateStr: string) {
     position: relative;
     z-index: 2;
     width: 100%;
-    max-width: 900px;
+    max-width: 1050px;
     margin: 0 auto;
   }
 
