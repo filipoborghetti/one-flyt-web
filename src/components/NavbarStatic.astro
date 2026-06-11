@@ -3,7 +3,9 @@
 ---
 
 <header class="navbar-static">
-  <a href="/" class="navbar-logo">One Flyt</a>
+  <a href="/" class="navbar-logo">
+    <img src="/logo.svg" alt="One Flyt" class="navbar-logo-img" />
+  </a>
 
   <nav class="navbar-links">
     <a href="/#musica">Música</a>
@@ -29,12 +31,14 @@
   }
 
   .navbar-logo {
-    font-family: var(--font-display);
-    font-size: 2rem;
-    color: var(--color-text);
-    text-decoration: none;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+  }
+
+  .navbar-logo-img {
+    height: 50px;
+    width: auto;
+    filter: invert(1);
   }
 
   .navbar-links {
