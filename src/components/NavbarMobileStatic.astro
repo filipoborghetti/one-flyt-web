@@ -7,7 +7,7 @@
     <img src="/logo.svg" alt="One Flyt" class="mobile-logo-img" />
   </a>
 
-  <button class="hamburger" aria-label="Abrir menú">
+  <button class="hamburger-static" aria-label="Abrir menú">
     <svg
       width="24"
       height="24"
@@ -53,7 +53,7 @@
 </nav>
 
 <script>
-  const hamburger = document.querySelector(".hamburger") as HTMLElement;
+  const hamburger = document.querySelector(".hamburger-static") as HTMLElement;
   const drawer = document.querySelector(".drawer-static") as HTMLElement;
   const overlay = document.querySelector(
     ".drawer-overlay-static",
@@ -110,7 +110,7 @@
     filter: invert(1);
   }
 
-  .hamburger {
+  .hamburger-static {
     background: none;
     border: none;
     color: var(--color-text);
