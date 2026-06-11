@@ -6,6 +6,7 @@ const dates = await sanityClient.fetch(`
     ciudad,
     venue,
     fecha,
+    "slug": slug.current,
     "flyerUrl": flyer.asset->url,
     url
   }
@@ -58,29 +59,39 @@ function formatDate(dateStr: string) {
                     <p class="fecha-venue">{date.venue}</p>
                     <p class="fecha-date">{formatDate(date.fecha)}</p>
 
-                    <a
-                      href={date.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="fecha-btn"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                    <div class="fecha-actions">
+                      {date.slug && (
+                        <a
+                          href={`/fechas/${date.slug}`}
+                          class="fecha-btn secondary"
+                        >
+                          Ver fecha
+                        </a>
+                      )}
+                      <a
+                        href={date.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="fecha-btn"
                       >
-                        <path d="M15 3h6v6" />
-                        <path d="M10 14 21 3" />
-                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                      </svg>
-                      Comprar entradas
-                    </a>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <path d="M15 3h6v6" />
+                          <path d="M10 14 21 3" />
+                          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                        </svg>
+                        Comprar entradas
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -261,8 +272,30 @@ function formatDate(dateStr: string) {
     border-color: rgba(255, 255, 255, 0.3);
   }
 
+  .fecha-btn.secondary:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
   .fecha-btn svg {
     flex-shrink: 0;
+  }
+
+  .fecha-actions {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    margin-top: 0.9rem;
+    flex-wrap: wrap;
+  }
+
+  .fecha-actions .fecha-btn {
+    margin-top: 0;
+  }
+
+  .fecha-btn.secondary {
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.15);
   }
 
   .carousel-btn {
