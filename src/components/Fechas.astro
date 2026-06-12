@@ -102,6 +102,9 @@ function formatDate(dateStr: string) {
       ))
     }
   </div>
+  <div class="fechas-footer fade-in">
+    <a href="/fechas" class="volver-btn"> Volver al inicio </a>
+  </div>
 </section>
 <style>
   .fechas {
@@ -128,7 +131,7 @@ function formatDate(dateStr: string) {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 150px;
+    height: 130px;
     background: linear-gradient(to bottom, transparent, var(--color-bg));
     z-index: 0;
   }
@@ -286,6 +289,38 @@ function formatDate(dateStr: string) {
 
   .fecha-actions .fecha-btn {
     margin-top: 0;
+  }
+
+  .fechas-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    z-index: 3;
+  }
+
+  .volver-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: 0.9rem;
+    width: fit-content;
+    padding: 0.55rem 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    color: var(--color-text);
+    text-decoration: none;
+    font-family: var(--font-ui);
+    font-size: 0.85rem;
+    background: rgba(20, 20, 20, 0.8);
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .volver-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.8);
   }
 
   @media (min-width: 768px) {

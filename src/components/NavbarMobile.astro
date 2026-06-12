@@ -86,8 +86,15 @@
   }
 
   setup();
+  let lastWidth = window.innerWidth;
 
-  // Drawer
+  window.addEventListener("resize", () => {
+    if (window.innerWidth !== lastWidth) {
+      lastWidth = window.innerWidth;
+      setup();
+    }
+  });
+
   function openDrawer() {
     drawer.classList.add("open");
     overlay.classList.add("open");
@@ -120,7 +127,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 1rem 1.5rem;
-    background: rgba(0, 0, 0, 0.9);
+    background: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(10px);
     animation: fadeDown 0.4s ease forwards;
   }
