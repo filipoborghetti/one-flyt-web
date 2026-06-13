@@ -22,7 +22,11 @@ function formatDate(dateStr: string) {
 ---
 
 <section id="fechas" class="tour">
-  <div class="tour-bg"></div>
+  <div class="tour-bg">
+    <video autoplay muted loop playsinline poster="/images/background.jpg">
+      <source src="/videos/fechas-bg.mp4" type="video/mp4" />
+    </video>
+  </div>
 
   <div class="tour-content">
     <h2 class="tour-title fade-in">FECHAS</h2>
@@ -116,6 +120,11 @@ function formatDate(dateStr: string) {
       <a href="/fechas" class="ver-todo-btn">Ver todas las fechas</a>
     </div>
   </div>
+  <a
+    href="https://www.instagram.com/flowshop.ok"
+    target="_blank"
+    class="visual-credit">Visual: @flowshop.ok</a
+  >
 </section>
 
 <script>
@@ -127,22 +136,23 @@ function formatDate(dateStr: string) {
   window.addEventListener("load", () => {
     new Swiper(".tour-swiper", {
       modules: [Navigation],
-
       slidesPerView: 1.1,
       spaceBetween: 16,
-
       navigation: {
         nextEl: ".carousel-btn.next",
         prevEl: ".carousel-btn.prev",
         disabledClass: "is-disabled",
       },
-
       breakpoints: {
-        768: {
-          slidesPerView: 3,
-        },
+        768: { slidesPerView: 3 },
       },
     });
+
+    setTimeout(() => {
+      document.querySelectorAll(".fecha-card").forEach((card) => {
+        card.classList.add("ready");
+      });
+    }, 500);
   });
 </script>
 
@@ -175,11 +185,15 @@ function formatDate(dateStr: string) {
   .tour-bg {
     position: absolute;
     inset: 0;
-    background-image: url("../assets/images/background.jpg");
-    background-size: cover;
-    background-position: center;
-    opacity: 0.5;
     z-index: 0;
+    overflow: hidden;
+  }
+
+  .tour-bg video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.2;
   }
 
   .tour-content {
@@ -213,18 +227,21 @@ function formatDate(dateStr: string) {
     height: 100%;
     display: flex;
     flex-direction: column;
-
-    background: rgba(20, 20, 20, 0.9);
+    background: rgba(20, 20, 20, 0.8);
+    backdrop-filter: blur(0px);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 12px;
     overflow: hidden;
-
     color: var(--color-text);
-
     transition:
+      backdrop-filter 0.6s ease,
       border-color 0.2s ease,
       background 0.2s ease,
       transform 0.2s ease;
+  }
+
+  .fecha-card.ready {
+    backdrop-filter: blur(10px);
   }
 
   .fecha-flyer {
@@ -389,6 +406,37 @@ function formatDate(dateStr: string) {
     border-color: rgba(255, 255, 255, 0.8);
   }
 
+  .visual-credit {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    font-family: var(--font-ui);
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.3);
+    z-index: 2;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .visual-credit:hover {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  @media (max-width: 767px) {
+    .tour-bg video {
+      width: 200%;
+      animation: scrollVideo 20s linear infinite;
+    }
+  }
+
+  @keyframes scrollVideo {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
   @media (max-width: 768px) {
     .carousel-btn {
       display: none;
