@@ -73,6 +73,20 @@ const { title, alwaysVisible = false } = Astro.props;
     <slot />
     <script>
       import "../scripts/animations.js";
+      import Lenis from "lenis";
+      import "../scripts/animations.js";
+
+      const lenis = new Lenis({
+        duration: 0.7,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      });
+
+      function raf(time: number) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+
+      requestAnimationFrame(raf);
     </script>
   </body>
 </html>
