@@ -111,7 +111,7 @@ function formatDate(dateStr: string) {
     min-height: 100vh;
     padding: 7rem 1.25rem 4rem;
     background-color: var(--color-bg);
-    background-image: url("/images/oneflyt_show.jpg");
+    background-image: url("/images/oneflyt_show_laplata_vertical.jpg");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -122,7 +122,7 @@ function formatDate(dateStr: string) {
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.8);
     z-index: 0;
   }
 
@@ -327,7 +327,18 @@ function formatDate(dateStr: string) {
 
   @media (min-width: 768px) {
     .fechas {
+      min-height: 100vh;
       padding: 8.5rem;
+      background-color: var(--color-bg);
+      background-image: url("/images/oneflyt_show.jpg");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      position: relative;
+    }
+
+    .fechas::before {
+      background: rgba(0, 0, 0, 0.6);
     }
 
     .fecha-actions {
