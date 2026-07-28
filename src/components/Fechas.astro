@@ -36,72 +36,78 @@ function formatDate(dateStr: string) {
 <section id="fechas" class="fechas">
   <h1 class="fechas-title fade-in">FECHAS</h1>
 
-  <div class="fechas-grid fade-in">
-    {
-      dates.map((date: any) => (
-        <div class="fecha-card">
-          <div class="fecha-flyer">
-            <img
-              src={date.flyerUrl}
-              alt={`One Flyt en ${date.ciudad}`}
-              width={1000}
-              height={1000}
-            />
-          </div>
+  {
+    dates.length > 0 ? (
+      <div class="fechas-grid fade-in">
+        {
+          dates.map((date: any) => (
+            <div class="fecha-card">
+              <div class="fecha-flyer">
+                <img
+                  src={date.flyerUrl}
+                  alt={`One Flyt en ${date.ciudad}`}
+                  width={1000}
+                  height={1000}
+                />
+              </div>
 
-          <div class="fecha-info">
-            <div class="fecha-header">
-              <h2 class="fecha-ciudad">{date.ciudad}</h2>
-              {date.disponibilidad === "soldout" && (
-                <span class="status-badge soldout">SOLD OUT</span>
-              )}
-              {date.disponibilidad === "cancelled" && (
-                <span class="status-badge cancelled">CANCELADO</span>
-              )}
+              <div class="fecha-info">
+                <div class="fecha-header">
+                  <h2 class="fecha-ciudad">{date.ciudad}</h2>
+                  {date.disponibilidad === "soldout" && (
+                    <span class="status-badge soldout">SOLD OUT</span>
+                  )}
+                  {date.disponibilidad === "cancelled" && (
+                    <span class="status-badge cancelled">CANCELADO</span>
+                  )}
+                </div>
+                <p class="fecha-venue">{date.venue}</p>
+                <p class="fecha-date">{formatDate(date.fecha)}</p>
+                <div class="fecha-actions">
+                  {date.slug && (
+                    <a href={`/fechas/${date.slug}`} class="fecha-btn secondary">
+                      Ver fecha
+                    </a>
+                  )}
+                  {date.disponibilidad === "soldout" ? (
+                    <div class="fecha-btn disabled">Entradas agotadas</div>
+                  ) : date.disponibilidad === "cancelled" ? (
+                    <div class="fecha-btn disabled">Evento cancelado</div>
+                  ) : (
+                    <a
+                      href={date.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="fecha-btn"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M15 3h6v6" />
+                        <path d="M10 14 21 3" />
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                      </svg>
+                      Comprar entradas
+                    </a>
+                  )}
+                </div>
+              </div>
             </div>
-            <p class="fecha-venue">{date.venue}</p>
-            <p class="fecha-date">{formatDate(date.fecha)}</p>
-            <div class="fecha-actions">
-              {date.slug && (
-                <a href={`/fechas/${date.slug}`} class="fecha-btn secondary">
-                  Ver fecha
-                </a>
-              )}
-              {date.disponibilidad === "soldout" ? (
-                <div class="fecha-btn disabled">Entradas agotadas</div>
-              ) : date.disponibilidad === "cancelled" ? (
-                <div class="fecha-btn disabled">Evento cancelado</div>
-              ) : (
-                <a
-                  href={date.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="fecha-btn"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <path d="M15 3h6v6" />
-                    <path d="M10 14 21 3" />
-                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                  </svg>
-                  Comprar entradas
-                </a>
-              )}
-            </div>
-          </div>
-        </div>
-      ))
-    }
-  </div>
+          ))
+        }
+      </div>
+    ) : (
+      <p class="fechas-empty fade-in">Próximamente nuevas fechas</p>
+    )
+  }
   <div class="fechas-footer fade-in">
     <a href="/" class="volver-btn"> Volver al inicio </a>
   </div>
@@ -290,6 +296,20 @@ function formatDate(dateStr: string) {
 
   .fecha-actions .fecha-btn {
     margin-top: 0;
+  }
+
+  .fechas-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: var(--font-body);
+    font-size: 1.2rem;
+    color: var(--color-text-muted);
+    min-height: 400px;
+    padding: 2rem;
+    position: relative;
+    z-index: 1;
   }
 
   .fechas-footer {

@@ -31,94 +31,104 @@ function formatDate(dateStr: string) {
   <div class="tour-content">
     <h2 class="tour-title fade-in">FECHAS</h2>
 
-    <div class="carousel-wrapper fade-in">
-      <button class="carousel-btn prev" aria-label="Anterior">
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
-          <path
-            d="M15 18l-6-6 6-6"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"></path>
-        </svg>
-      </button>
+    {
+      dates.length > 0 ? (
+        <div class="carousel-wrapper fade-in">
+          <button class="carousel-btn prev" aria-label="Anterior">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M15 18l-6-6 6-6"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </svg>
+          </button>
 
-      <div class="swiper tour-swiper">
-        <div class="swiper-wrapper">
-          {
-            dates.map((date: any) => (
-              <div class="swiper-slide">
-                <div class="fecha-card">
-                  <div class="fecha-flyer">
-                    <img
-                      src={date.flyerUrl}
-                      alt={`One Flyt en ${date.ciudad}`}
-                      width={1000}
-                      height={1000}
-                    />
-                  </div>
+          <div class="swiper tour-swiper">
+            <div class="swiper-wrapper">
+              {
+                dates.map((date: any) => (
+                  <div class="swiper-slide">
+                    <div class="fecha-card">
+                      <div class="fecha-flyer">
+                        <img
+                          src={date.flyerUrl}
+                          alt={`One Flyt en ${date.ciudad}`}
+                          width={1000}
+                          height={1000}
+                        />
+                      </div>
 
-                  <div class="fecha-info">
-                    <h2 class="fecha-ciudad">{date.ciudad}</h2>
-                    <p class="fecha-venue">{date.venue}</p>
-                    <p class="fecha-date">{formatDate(date.fecha)}</p>
+                      <div class="fecha-info">
+                        <h2 class="fecha-ciudad">{date.ciudad}</h2>
+                        <p class="fecha-venue">{date.venue}</p>
+                        <p class="fecha-date">{formatDate(date.fecha)}</p>
 
-                    <div class="fecha-actions">
-                      {date.slug && (
-                        <a
-                          href={`/fechas/${date.slug}`}
-                          class="fecha-btn secondary"
-                        >
-                          Ver fecha
-                        </a>
-                      )}
-                      <a
-                        href={date.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="fecha-btn"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        >
-                          <path d="M15 3h6v6" />
-                          <path d="M10 14 21 3" />
-                          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                        </svg>
-                        Comprar entradas
-                      </a>
+                        <div class="fecha-actions">
+                          {date.slug && (
+                            <a
+                              href={`/fechas/${date.slug}`}
+                              class="fecha-btn secondary"
+                            >
+                              Ver fecha
+                            </a>
+                          )}
+                          <a
+                            href={date.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="fecha-btn"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            >
+                              <path d="M15 3h6v6" />
+                              <path d="M10 14 21 3" />
+                              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                            </svg>
+                            Comprar entradas
+                          </a>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            ))
-          }
+                ))
+              }
+            </div>
+          </div>
+
+          <button class="carousel-btn next" aria-label="Siguiente">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M9 6l6 6-6 6"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </svg>
+          </button>
         </div>
-      </div>
+      ) : (
+        <p class="tour-empty fade-in">Próximamente nuevas fechas</p>
+      )
+    }
 
-      <button class="carousel-btn next" aria-label="Siguiente">
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
-          <path
-            d="M9 6l6 6-6 6"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"></path>
-        </svg>
-      </button>
-    </div>
-
-    <div class="tour-footer fade-in">
-      <a href="/fechas" class="ver-todo-btn">Ver todas las fechas</a>
-    </div>
+    {
+      dates.length > 0 && (
+        <div class="tour-footer fade-in">
+          <a href="/fechas" class="ver-todo-btn">Ver todas las fechas</a>
+        </div>
+      )
+    }
   </div>
   <a
     href="https://www.instagram.com/flowshop.ok"
@@ -394,6 +404,18 @@ function formatDate(dateStr: string) {
   .carousel-btn.is-disabled {
     opacity: 0.3;
     pointer-events: none;
+  }
+
+  .tour-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: var(--font-body);
+    font-size: 1.2rem;
+    color: var(--color-text-muted);
+    min-height: 400px;
+    padding: 2rem;
   }
 
   .tour-footer {
